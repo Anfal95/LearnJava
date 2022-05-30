@@ -1,4 +1,3 @@
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,8 +24,16 @@ public class Main {
             switch (choice) {
                 case 1:
 
-                    System.out.print("Please Enter Turtle Type: ");
-                    String type = in.next();
+                    System.out.println("Please Enter Turtle Species Option Number From the List Below: ");
+                    System.out.println("1.Leatherback");
+                    System.out.println("2.Loggerhead");
+                    System.out.println("3.Green");
+                    System.out.println("4.Flatback");
+                    System.out.println("5.Hawksbill");
+                    System.out.println("6.KempsRidley");
+                    System.out.println("7.OliveRidley");
+
+                    int speciesOption = in.nextInt();
 
                     System.out.print("Please Enter Turtle Weight: ");
                     float weight = in.nextFloat();
@@ -48,97 +55,63 @@ public class Main {
                         sampleDate = format.parse(cinput);
                     }
 
-                    turtleList.add(new Turtle(type, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation));
+                    Turtle childObj = Factory.createObject(speciesOption, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation);
+                    Turtle.insertTurtle(childObj);
                     break;
 
                 case 2:
                     System.out.println("-----------------");
-                    Iterator<Turtle> i = turtleList.iterator();
-                    while (i.hasNext()) {
-                        Turtle e = i.next();
-                        System.out.println(e);
-                    }
+                    Turtle.viewTurtle();
                     System.out.println("-----------------");
                     break;
                 case 3:
-                    boolean found = false;
-                    System.out.println("Enter Turtle Type you want to search: ");
-                    String turtleType = in.next();
-                    i = turtleList.iterator();
-                    while (i.hasNext()) {
-                        Turtle e = i.next();
-                        if (e.getType().equals(turtleType)) {
-                            System.out.println(e);
-                            found = true;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("Record Not Found");
-                    }
-                    System.out.println("-----------------");
+                    System.out.println("Enter Turtle Species you want to search: ");
+                    int searchId = in.nextInt();
                     break;
                 case 4:
-                    found = false;
                     System.out.println("Enter Turtle Id you want to remove: ");
                     int turtleId = in.nextInt();
-                    i = turtleList.iterator();
-                    while (i.hasNext()) {
-                        Turtle e = i.next();
-                        if (e.getTurtleId() == turtleId) {
-                            i.remove();
-                            found = true;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("Record Not Found");
-                    } else {
-                        System.out.println("Record is deleted successfully");
-                    }
-                    System.out.println("-----------------");
+                    Turtle.removeTurtle(turtleId);
                     break;
                 case 5:
-                    found = false;
-                    System.out.println("Enter Turtle Id you want to remove: ");
+                    System.out.println("Enter Turtle Id you want to update: ");
                     turtleId = in.nextInt();
-                    ListIterator<Turtle> li = turtleList.listIterator();
-                    while (li.hasNext()) {
-                        Turtle e = li.next();
-                        if (e.getTurtleId() == turtleId) {
-                            System.out.print("Please Enter new Turtle Type: ");
-                            type = in.next();
 
-                            System.out.print("Please Enter new Turtle Weight: ");
-                            weight = in.nextFloat();
+                    System.out.print("Please Enter Turtle Species Option Number From the List Below: ");
+                    System.out.println("1.Leatherback");
+                    System.out.println("2.Loggerhead");
+                    System.out.println("3.Green");
+                    System.out.println("4.Flatback");
+                    System.out.println("5.Hawksbill");
+                    System.out.println("6.KempsRidley");
+                    System.out.println("7.OliveRidley");
 
-                            System.out.print("Please Enter new Turtle Length: ");
-                            length = in.nextFloat();
+                    speciesOption = in.nextInt();
 
-                            System.out.print("Please Enter new Turtle number Of Working Flippers: ");
-                            numberOfWorkingFlippers = in.nextInt();
+                    System.out.print("Please Enter new Turtle Weight: ");
+                    weight = in.nextFloat();
 
-                            System.out.print("Please Enter new Turtle Sample Location: ");
-                            sampleLocation = in.next();
+                    System.out.print("Please Enter new Turtle Length: ");
+                    length = in.nextFloat();
 
-                            System.out.print("Please Enter new Turtle Sample Date (dd/MM/yy): ");
-                            sampleDate = null;
-                            format = new SimpleDateFormat("dd/MM/yyyy");
-                            cinput = in.next();
-                            if (null != cinput && cinput.trim().length() > 0) {
-                                sampleDate = format.parse(cinput);
-                            }
-                            li.set(new Turtle(type, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation));
-                            found = true;
-                        }
+                    System.out.print("Please Enter new Turtle number Of Working Flippers: ");
+                    numberOfWorkingFlippers = in.nextInt();
+
+                    System.out.print("Please Enter new Turtle Sample Location: ");
+                    sampleLocation = in.next();
+
+                    System.out.print("Please Enter new Turtle Sample Date (dd/MM/yy): ");
+                    sampleDate = null;
+                    format = new SimpleDateFormat("dd/MM/yyyy");
+                    cinput = in.next();
+                    if (null != cinput && cinput.trim().length() > 0) {
+                        sampleDate = format.parse(cinput);
                     }
-                    if (!found) {
-                        System.out.println("Record Not Found");
-                    } else {
-                        System.out.println("Record is Updated successfully");
-                    }
-                    System.out.println("-----------------");
+
+                    Turtle updatedChildObj = Factory.createObject(speciesOption, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation);
+                    Turtle.updateTurtle(turtleId,updatedChildObj);
                     break;
                 case 6:
-                    List<Turtle> filteredTurtleList = new ArrayList<>();
                     System.out.print("Enter Location: ");
                     String location = in.next();
 
@@ -155,21 +128,12 @@ public class Main {
                     if (null != endDateinput && endDateinput.trim().length() > 0) {
                         endDate = format.parse(endDateinput);
                     }
+                    List<Turtle> result = Turtle.generateReport(location, fromDate, endDate);
                     System.out.println("Summary Report");
                     System.out.println("**************");
 
-
-                    i = turtleList.iterator();
-                    while (i.hasNext()) {
-                        Turtle e = i.next();
-                        if ((e.getSampleDate().compareTo(fromDate) > 0 && e.getSampleDate().compareTo(endDate) < 0) || e.getSampleLocation().equals(location)) {
-                            filteredTurtleList.add(e);
-                        }
-                    }
-
-                    System.out.println("Total Turtles: " + filteredTurtleList.size());
-                    System.out.println(filteredTurtleList);
-                    System.out.println("-----------------");
+                    System.out.println("Total Turtles: " + result.size());
+                    System.out.println(result);
                     break;
             }
         } while (choice != 0);
