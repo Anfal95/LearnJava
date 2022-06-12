@@ -5,12 +5,15 @@ import java.util.*;
 public class Main {
     static List<Turtle> turtleList = new ArrayList<>();
 
-    public static void main(String[] args) throws ParseException {
 
+    public static void main(String[] args) throws ParseException {
+//        Connect.connect();
         Scanner in = new Scanner(System.in);
         int choice;
 
+
         do {
+            System.out.println("0.Exit");
             System.out.println("1.Insert");
             System.out.println("2.View");
             System.out.println("3.Search ");
@@ -54,9 +57,11 @@ public class Main {
                     if (null != cinput && cinput.trim().length() > 0) {
                         sampleDate = format.parse(cinput);
                     }
+                    String species = "Flatback";
 
                     Turtle childObj = Factory.createObject(speciesOption, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation);
-                    Turtle.insertTurtle(childObj);
+                    Connect.insert(childObj);
+//                    Turtle.insertTurtle(childObj);
                     break;
 
                 case 2:
@@ -71,7 +76,7 @@ public class Main {
                 case 4:
                     System.out.println("Enter Turtle Id you want to remove: ");
                     int turtleId = in.nextInt();
-                    Turtle.removeTurtle(turtleId);
+                    Connect.remove(turtleId);
                     break;
                 case 5:
                     System.out.println("Enter Turtle Id you want to update: ");
@@ -109,7 +114,8 @@ public class Main {
                     }
 
                     Turtle updatedChildObj = Factory.createObject(speciesOption, weight, length, numberOfWorkingFlippers, sampleDate, sampleLocation);
-                    Turtle.updateTurtle(turtleId,updatedChildObj);
+                    Connect.update(updatedChildObj);
+//                    Turtle.updateTurtle(turtleId,updatedChildObj);
                     break;
                 case 6:
                     System.out.print("Enter Location: ");
